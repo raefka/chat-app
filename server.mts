@@ -22,6 +22,11 @@ app.prepare().then(()=>{
             socket.join(room);
             console.log(`User ${username} joined room ${room}`);
             socket.to(room).emit("user_joined",`${username} joined the room`);
+        });
+
+        socket.on("message",({room,message,sender})=>{
+            console.log(`message from ${sender} in room ${room} : ${message}`);
+            socket.to(room).emit("message",{sender,message});
         })
 
         socket.on("disconnect",() =>{
