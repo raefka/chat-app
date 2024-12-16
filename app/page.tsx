@@ -15,17 +15,45 @@ export default function Home() {
     console.log(message);
   }
 
+  const handleJoinRoom = () => {
+    setJoined(true);
+  }
+
   return (
     <div className="flex mt-24 justify-center w-full">
-      <div className="w-full max-w-3xl">
-          <h1 className="mb-4 text-2xl font-bold">Room : 1</h1>
-          <div className="h-[500px] overflow-y-auto p-4 mb-4 bg-gray-200 border-2 rounded-lg">
-            {messages.map((message, index) => (
-              <ChatMessage key={index} message={message.message} sender={message.sender} isOwnMessage={message.sender === userName} />
-            ))}
-          </div>
-          <ChatForm  onSendMessage={handleSendMessage}/>
-      </div>
+      {!joined ?(
+            <div className="flex w-full max-w-3xl mx-auto flex-col items-center">
+              <h1 className="mb-2 font-bold text-2xl">Join A room</h1>
+              <input
+                type="text"
+                placeholder="Enter your userName"
+                className="w-64 px-4 py-2 mb-4 border-2 rounded-lg"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                />
+                <input
+                type="text"
+                placeholder="Enter room name"
+                className="w-64 px-4 py-2 mb-4 border-2 rounded-lg"
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+                />
+                <button className="px-4 py-2 text-white bg-blue-500 rounded-lg" onClick={handleJoinRoom}>
+                  Join Room
+                </button>
+            </div>
+      ):(
+        <div className="w-full max-w-3xl">
+                  <h1 className="mb-4 text-2xl font-bold">Room : 1</h1>
+                  <div className="h-[500px] overflow-y-auto p-4 mb-4 bg-gray-200 border-2 rounded-lg">
+                    {messages.map((message, index) => (
+                      <ChatMessage key={index} message={message.message} sender={message.sender} isOwnMessage={message.sender === userName} />
+                    ))}
+                  </div>
+                  <ChatForm  onSendMessage={handleSendMessage}/>
+        </div>
+      )}
+      
     </div>
   );
 }
